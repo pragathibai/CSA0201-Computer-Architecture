@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ title }}</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b1020;
+    color: white;
+}
+
+header {
+    background: linear-gradient(135deg, #111936, #312e81);
+    padding: 25px 40px;
+    border-bottom: 1px solid #334155;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+header p {
+    color: #c7d2fe;
+}
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.back {
+    display: inline-block;
+    color: #a5b4fc;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #111827;
+    border: 1px solid #293548;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 15px;
+}
+
+label {
+    display: block;
+    color: #cbd5e1;
+    margin-bottom: 7px;
+    font-size: 14px;
+}
+
+input, select {
+    width: 100%;
+    padding: 11px;
+    border-radius: 8px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: white;
+    font-size: 15px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 9px;
+    background: #4f46e5;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #6366f1;
+}
+
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.result {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+}
+
+.result strong {
+    display: block;
+    color: #818cf8;
+    font-size: 25px;
+    margin-bottom: 6px;
+}
+
+.result span {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.explanation {
+    color: #94a3b8;
+    line-height: 1.7;
+}
+
+.good {
+    color: #4ade80;
+}
+
+.warning {
+    color: #fbbf24;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #334155;
+    text-align: center;
+}
+
+th {
+    background: #1e293b;
+}
+
+td {
+    color: #cbd5e1;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<header>
+
+<h1>{{ icon }} {{ title }}</h1>
+
+<p>CSA12 – Computer Architecture Performance Simulator</p>
+
+</header>
+
+
+<div class="container">
+
+<a href="/" class="back">← Back to Dashboard</a>
+
+
+{% if module == "pipeline" %}
+
+<div class="card">
+
+<h2>5-Stage Instruction Pipeline</h2>
+
+<p class="explanation">
+Simulate instruction execution using IF, ID, EX, MEM and WB stages.
+Analyse hazards, stalls, forwarding and branch prediction.
+</p>
+
+<div class="grid">
+
+<div>
+<label>Number of Instructions</label>
+<input id="instructions" type="number" value="100">
+</div>
+
+<div>
+<label>Base CPI</label>
+<input id="cpi" type="number" value="1" step="0.1">
+</div>
+
+<div>
+<label>Data Hazard Stalls</label>
+<input id="dataStalls" type="number" value="10">
+</div>
+
+<div>
+<label>Control Hazard Stalls</label>
+<input id="controlStalls" type="number" value="8">
+</div>
+
+<div>
+<label>Structural Hazard Stalls</label>
+<input id="structuralStalls" type="number" value="3">
+</div>
+
+<div>
+<label>Branch Prediction Accuracy (%)</label>
+<input id="branchAccuracy" type="number" value="90">
+</div>
+
+</div>
+
+<button onclick="runPipeline()">Run Pipeline Simulation</button>
+
+<div id="pipelineResults"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Pipeline Stages</h2>
+
+<table>
+
+<tr>
+<th>Stage</th>
+<th>Operation</th>
+</tr>
+
+<tr><td>IF</td><td>Instruction Fetch</td></tr>
+<tr><td>ID</td><td>Instruction Decode</td></tr>
+<tr><td>EX</td><td>Execute / ALU</td></tr>
+<tr><td>MEM</td><td>Memory Access</td></tr>
+<tr><td>WB</td><td>Write Back</td></tr>
+
+</table>
+
+</div>
+
+
+{% elif module == "cache" %}
+
+<div class="card">
+
+<h2>Cache Hierarchy Analysis</h2>
+
+<p class="explanation">
+Calculate cache hit ratio, miss rate and Effective Access Time (EAT)
+for a multi-level cache hierarchy.
+</p>
+
+<div class="grid">
+
+<div>
+<label>Memory Accesses</label>
+<input id="accesses" type="number" value="1000">
+</div>
+
+<div>
+<label>L1 Hit Ratio (%)</label>
+<input id="l1hit" type="number" value="95">
+</div>
+
+<div>
+<label>L1 Hit Time (ns)</label>
+<input id="l1time" type="number" value="1">
+</div>
+
+<div>
+<label>L2 Hit Ratio (%)</label>
+<input id="l2hit" type="number" value="90">
+</div>
+
+<div>
+<label>L2 Hit Time (ns)</label>
+<input id="l2time" type="number" value="5">
+</div>
+
+<div>
+<label>Main Memory Penalty (ns)</label>
+<input id="memtime" type="number" value="80">
+</div>
+
+<div>
+<label>Mapping Technique</label>
+
+<select id="mapping">
+
+<option>Direct Mapping</option>
+<option>Fully Associative</option>
+<option>Set Associative</option>
+
+</select>
+
+</div>
+
+</div>
+
+<button onclick="runCache()">Run Cache Simulation</button>
+
+<div id="cacheResults"></div>
+
+</div>
+
+
+{% elif module == "vm" %}
+
+<div class="card">
+
+<h2>Paging & TLB Simulation</h2>
+
+<p class="explanation">
+Analyse virtual-to-physical address translation and calculate
+Effective Access Time using TLB hit/miss behaviour and page faults.
+</p>
+
+<div class="grid">
+
+<div>
+<label>Memory References</label>
+<input id="references" type="number" value="1000">
+</div>
+
+<div>
+<label>TLB Hit Ratio (%)</label>
+<input id="tlbhit" type="number" value="95">
+</div>
+
+<div>
+<label>TLB Lookup (ns)</label>
+<input id="tlbtime" type="number" value="10">
+</div>
+
+<div>
+<label>Memory Access Time (ns)</label>
+<input id="vmtime" type="number" value="100">
+</div>
+
+<div>
+<label>Page Fault Rate (%)</label>
+<input id="pfrate" type="number" value="1">
+</div>
+
+<div>
+<label>Page Fault Penalty (ms)</label>
+<input id="pfpenalty" type="number" value="8">
+</div>
+
+</div>
+
+<button onclick="runVM()">Run VM Simulation</button>
+
+<div id="vmResults"></div>
+
+</div>
+
+
+{% elif module == "io" %}
+
+<div class="card">
+
+<h2>I/O Organization & DMA</h2>
+
+<p class="explanation">
+Compare Programmed I/O, Interrupt-Driven I/O and Direct Memory Access (DMA)
+for large data transfers.
+</p>
+
+<div class="grid">
+
+<div>
+<label>Data Size (MB)</label>
+<input id="data" type="number" value="500">
+</div>
+
+<div>
+<label>Transfer Rate (MB/s)</label>
+<input id="rate" type="number" value="100">
+</div>
+
+<div>
+<label>PIO CPU Overhead (%)</label>
+<input id="pio" type="number" value="90">
+</div>
+
+<div>
+<label>Interrupt I/O CPU Overhead (%)</label>
+<input id="interrupt" type="number" value="30">
+</div>
+
+<div>
+<label>DMA CPU Overhead (%)</label>
+<input id="dma" type="number" value="5">
+</div>
+
+</div>
+
+<button onclick="runIO()">Run I/O & DMA Simulation</button>
+
+<div id="ioResults"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>DMA Transfer Sequence</h2>
+
+<table>
+
+<tr>
+<th>Step</th>
+<th>DMA Operation</th>
+</tr>
+
+<tr><td>1</td><td>CPU initializes DMA controller</td></tr>
+<tr><td>2</td><td>DMA requests system bus</td></tr>
+<tr><td>3</td><td>Bus arbitration grants access</td></tr>
+<tr><td>4</td><td>DMA transfers data between I/O and memory</td></tr>
+<tr><td>5</td><td>DMA releases bus</td></tr>
+<tr><td>6</td><td>DMA interrupts CPU after completion</td></tr>
+
+</table>
+
+</div>
+
+
+{% elif module == "bus" %}
+
+<div class="card">
+
+<h2>System Bus Performance</h2>
+
+<p class="explanation">
+Calculate theoretical and effective bus bandwidth and data transfer latency.
+</p>
+
+<div class="grid">
+
+<div>
+<label>Bus Width (bits)</label>
+<input id="width" type="number" value="64">
+</div>
+
+<div>
+<label>Bus Frequency (MHz)</label>
+<input id="frequency" type="number" value="200">
+</div>
+
+<div>
+<label>Bus Efficiency (%)</label>
+<input id="efficiency" type="number" value="80">
+</div>
+
+<div>
+<label>Data Transfer Size (MB)</label>
+<input id="busdata" type="number" value="500">
+</div>
+
+<div>
+<label>Arbitration Latency (ns)</label>
+<input id="arb" type="number" value="100">
+</div>
+
+</div>
+
+<button onclick="runBus()">Run Bus Simulation</button>
+
+<div id="busResults"></div>
+
+</div>
+
+
+{% elif module == "performance" %}
+
+<div class="card">
+
+<h2>Existing vs Proposed Architecture</h2>
+
+<p class="explanation">
+Compare baseline and optimized architectures using execution time,
+CPI, cache hit ratio, I/O throughput and CPU utilization.
+</p>
+
+<div class="grid">
+
+<div>
+<label>Existing Execution Time (ms)</label>
+<input id="oldtime" type="number" value="1000">
+</div>
+
+<div>
+<label>Proposed Execution Time (ms)</label>
+<input id="newtime" type="number" value="620">
+</div>
+
+<div>
+<label>Existing CPI</label>
+<input id="oldcpi" type="number" value="2.4">
+</div>
+
+<div>
+<label>Proposed CPI</label>
+<input id="newcpi" type="number" value="1.35">
+</div>
+
+<div>
+<label>Existing Cache Hit Ratio (%)</label>
+<input id="oldcache" type="number" value="82">
+</div>
+
+<div>
+<label>Proposed Cache Hit Ratio (%)</label>
+<input id="newcache" type="number" value="95">
+</div>
+
+<div>
+<label>Existing I/O Throughput (MB/s)</label>
+<input id="oldio" type="number" value="45">
+</div>
+
+<div>
+<label>Proposed I/O Throughput (MB/s)</label>
+<input id="newio" type="number" value="100">
+</div>
+
+</div>
+
+<button onclick="runPerformance()">Compare Architectures</button>
+
+<div id="performanceResults"></div>
+
+</div>
+
+{% endif %}
+
+
+</div>
+
+
+<script>
+
+function box(value, label) {
+    return `
+    <div class="result">
+        <strong>${value}</strong>
+        <span>${label}</span>
+    </div>`;
+}
+
+
+function runPipeline() {
+
+    let n = Number(document.getElementById("instructions").value);
+    let cpi = Number(document.getElementById("cpi").value);
+
+    let data = Number(document.getElementById("dataStalls").value);
+    let control = Number(document.getElementById("controlStalls").value);
+    let structural = Number(document.getElementById("structuralStalls").value);
+
+    let totalStalls = data + control + structural;
+
+    let idealCycles = n + 4;
+
+    let actualCycles = n * cpi + totalStalls;
+
+    let idealCPI = idealCycles / n;
+
+    let actualCPI = actualCycles / n;
+
+    let speedup = idealCycles / actualCycles;
+
+    document.getElementById("pipelineResults").innerHTML = `
+
+    <div class="results">
+
+    ${box(idealCycles.toFixed(2), "Ideal Pipeline Cycles")}
+
+    ${box(actualCycles.toFixed(2), "Actual Cycles")}
+
+    ${box(totalStalls, "Total Hazard Stalls")}
+
+    ${box(actualCPI.toFixed(3), "Actual CPI")}
+
+    ${box(speedup.toFixed(2) + "×", "Pipeline Speedup")}
+
+    </div>
+
+    <div class="card">
+    <p class="explanation">
+    Forwarding reduces data-hazard stalls. Branch prediction reduces
+    control-hazard penalties. Total simulated hazard stalls:
+    <b>${totalStalls}</b>.
+    </p>
+    </div>
+    `;
+}
+
+
+function runCache() {
+
+    let accesses = Number(document.getElementById("accesses").value);
+
+    let l1 = Number(document.getElementById("l1hit").value) / 100;
+    let l1time = Number(document.getElementById("l1time").value);
+
+    let l2 = Number(document.getElementById("l2hit").value) / 100;
+    let l2time = Number(document.getElementById("l2time").value);
+
+    let mem = Number(document.getElementById("memtime").value);
+
+    let l1miss = 1 - l1;
+    let l2miss = 1 - l2;
+
+    let overallHit = l1;
+    let overallMiss = l1miss;
+
+    let eat = l1time + l1miss * (l2time + l2miss * mem);
+
+    let l1hits = accesses * l1;
+    let l1misses = accesses * l1miss;
+
+    let mapping = document.getElementById("mapping").value;
+
+    document.getElementById("cacheResults").innerHTML = `
+
+    <div class="results">
+
+    ${box((overallHit * 100).toFixed(2) + "%", "L1 Hit Ratio")}
+
+    ${box((overallMiss * 100).toFixed(2) + "%", "L1 Miss Rate")}
+
+    ${box(l1hits.toFixed(0), "L1 Hits")}
+
+    ${box(l1misses.toFixed(0), "L1 Misses")}
+
+    ${box(eat.toFixed(3) + " ns", "Effective Access Time")}
+
+    </div>
+
+    <div class="card">
+    <p class="explanation">
+    Selected mapping: <b>${mapping}</b>.
+    The EAT includes L1 access time, L2 lookup on an L1 miss,
+    and main-memory penalty on an L2 miss.
+    </p>
+    </div>
+    `;
+}
+
+
+function runVM() {
+
+    let references = Number(document.getElementById("references").value);
+
+    let hit = Number(document.getElementById("tlbhit").value) / 100;
+
+    let tlb = Number(document.getElementById("tlbtime").value);
+
+    let memory = Number(document.getElementById("vmtime").value);
+
+    let pf = Number(document.getElementById("pfrate").value) / 100;
+
+    let pfPenaltyMs = Number(document.getElementById("pfpenalty").value);
+
+    let pfPenalty = pfPenaltyMs * 1000000;
+
+    let tlbMiss = 1 - hit;
+
+    let tlbHits = references * hit;
+
+    let tlbMisses = references * tlbMiss;
+
+    let pageFaults = references * pf;
+
+    let noFaultEat =
+        tlb +
+        hit * memory +
+        tlbMiss * (2 * memory);
+
+    let eat =
+        noFaultEat +
+        pf * pfPenalty;
+
+    document.getElementById("vmResults").innerHTML = `
+
+    <div class="results">
+
+    ${box((hit * 100).toFixed(2) + "%", "TLB Hit Ratio")}
+
+    ${box(tlbHits.toFixed(0), "TLB Hits")}
+
+    ${box(tlbMisses.toFixed(0), "TLB Misses")}
+
+    ${box(pageFaults.toFixed(0), "Estimated Page Faults")}
+
+    ${box(eat.toFixed(2) + " ns", "Effective Access Time")}
+
+    </div>
+
+    <div class="card">
+    <p class="explanation">
+    TLB hits avoid an additional page-table memory access.
+    Page faults introduce the much larger secondary-storage penalty.
+    </p>
+    </div>
+    `;
+}
+
+
+function runIO() {
+
+    let data = Number(document.getElementById("data").value);
+
+    let rate = Number(document.getElementById("rate").value);
+
+    let pio = Number(document.getElementById("pio").value);
+
+    let interrupt = Number(document.getElementById("interrupt").value);
+
+    let dma = Number(document.getElementById("dma").value);
+
+    let transferSeconds = data / rate;
+
+    let pioCpu = transferSeconds * pio / 100;
+
+    let interruptCpu = transferSeconds * interrupt / 100;
+
+    let dmaCpu = transferSeconds * dma / 100;
+
+    document.getElementById("ioResults").innerHTML = `
+
+    <div class="results">
+
+    ${box(transferSeconds.toFixed(2) + " s", "Transfer Time")}
+
+    ${box(pioCpu.toFixed(2) + " s", "Programmed I/O CPU Time")}
+
+    ${box(interruptCpu.toFixed(2) + " s", "Interrupt I/O CPU Time")}
+
+    ${box(dmaCpu.toFixed(2) + " s", "DMA CPU Time")}
+
+    ${box(dma + "%", "DMA CPU Utilization")}
+
+    </div>
+
+    <div class="card">
+    <p class="explanation">
+    <b class="good">DMA is the preferred method for large transfers</b>
+    because the DMA controller transfers data directly between the
+    peripheral and main memory while requiring minimal CPU intervention.
+    </p>
+    </div>
+    `;
+}
+
+
+function runBus() {
+
+    let width = Number(document.getElementById("width").value);
+
+    let frequency = Number(document.getElementById("frequency").value);
+
+    let efficiency = Number(document.getElementById("efficiency").value) / 100;
+
+    let data = Number(document.getElementById("busdata").value);
+
+    let arbitration = Number(document.getElementById("arb").value);
+
+    let theoretical =
+        (width / 8) * frequency * 1000000;
+
+    let effective = theoretical * efficiency;
+
+    let effectiveMBps = effective / (1024 * 1024);
+
+    let transferSeconds =
+        (data * 1024 * 1024) / effective;
+
+    let latencyMs =
+        transferSeconds * 1000 +
+        arbitration / 1000000;
+
+    document.getElementById("busResults").innerHTML = `
+
+    <div class="results">
+
+    ${box((theoretical / (1024 * 1024)).toFixed(2) + " MB/s", "Theoretical Bandwidth")}
+
+    ${box(effectiveMBps.toFixed(2) + " MB/s", "Effective Bandwidth")}
+
+    ${box(transferSeconds.toFixed(4) + " s", "Transfer Time")}
+
+    ${box(latencyMs.toFixed(4) + " ms", "Transfer + Arbitration Latency")}
+
+    ${box((efficiency * 100).toFixed(0) + "%", "Bus Efficiency")}
+
+    </div>
+    `;
+}
+
+
+function runPerformance() {
+
+    let oldTime = Number(document.getElementById("oldtime").value);
+
+    let newTime = Number(document.getElementById("newtime").value);
+
+    let oldCpi = Number(document.getElementById("oldcpi").value);
+
+    let newCpi = Number(document.getElementById("newcpi").value);
+
+    let oldCache = Number(document.getElementById("oldcache").value);
+
+    let newCache = Number(document.getElementById("newcache").value);
+
+    let oldIO = Number(document.getElementById("oldio").value);
+
+    let newIO = Number(document.getElementById("newio").value);
+
+    let speedup = oldTime / newTime;
+
+    let timeImprovement =
+        ((oldTime - newTime) / oldTime) * 100;
+
+    let cpiImprovement =
+        ((oldCpi - newCpi) / oldCpi) * 100;
+
+    let cacheImprovement =
+        newCache - oldCache;
+
+    let ioImprovement =
+        ((newIO - oldIO) / oldIO) * 100;
+
+    document.getElementById("performanceResults").innerHTML = `
+
+    <div class="results">
+
+    ${box(speedup.toFixed(2) + "×", "Overall Speedup")}
+
+    ${box(timeImprovement.toFixed(2) + "%", "Execution Time Improvement")}
+
+    ${box(cpiImprovement.toFixed(2) + "%", "CPI Improvement")}
+
+    ${box(cacheImprovement.toFixed(2) + " pp", "Cache Hit Improvement")}
+
+    ${box(ioImprovement.toFixed(2) + "%", "I/O Throughput Improvement")}
+
+    </div>
+
+    <div class="card">
+
+    <p class="explanation">
+    The proposed architecture improves execution time while reducing CPI,
+    increasing cache hit ratio and improving I/O throughput.
+    </p>
+
+    </div>
+    `;
+}
+
+</script>
+
+</body>
+
+</html>

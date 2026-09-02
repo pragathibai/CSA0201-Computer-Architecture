@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>High Performance Architecture Simulator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0b1020;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #111936, #172554);
+            padding: 28px 50px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #a5b4fc;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 35px 25px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #172554, #312e81);
+            border: 1px solid #4338ca;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+        }
+
+        .hero h2 {
+            font-size: 27px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #c7d2fe;
+            line-height: 1.7;
+            max-width: 850px;
+        }
+
+        .section-title {
+            font-size: 21px;
+            margin: 30px 0 18px;
+        }
+
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #263244;
+            border-radius: 16px;
+            padding: 24px;
+            transition: 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .icon {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #94a3b8;
+            line-height: 1.5;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 17px;
+            border-radius: 9px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #6366f1;
+        }
+
+        .architecture {
+            background: #111827;
+            border: 1px solid #263244;
+            border-radius: 18px;
+            padding: 28px;
+            overflow-x: auto;
+        }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 1000px;
+            margin-top: 25px;
+        }
+
+        .box {
+            background: #1e293b;
+            border: 2px solid #6366f1;
+            padding: 18px 15px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 115px;
+            font-weight: bold;
+        }
+
+        .arrow {
+            color: #818cf8;
+            font-size: 25px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .metric {
+            background: #0f172a;
+            border: 1px solid #263244;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .metric .number {
+            font-size: 27px;
+            font-weight: bold;
+            color: #818cf8;
+            margin-bottom: 7px;
+        }
+
+        .metric span {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding: 30px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>🚀 High-Performance Architecture Simulator</h1>
+        <p>CSA12 – Computer Architecture | Memory, Pipeline & I/O Subsystem</p>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <h2>Computer Architecture Performance Lab ⚙️</h2>
+
+            <p>
+                An interactive simulation platform for analysing and optimizing
+                processor pipelines, cache and memory hierarchy, virtual memory,
+                I/O organization, DMA transfers, system buses and overall system
+                performance.
+            </p>
+
+            <div class="metrics">
+                <div class="metric">
+                    <div class="number">5</div>
+                    <span>Pipeline Stages</span>
+                </div>
+
+                <div class="metric">
+                    <div class="number">3</div>
+                    <span>Cache Levels</span>
+                </div>
+
+                <div class="metric">
+                    <div class="number">3</div>
+                    <span>I/O Techniques</span>
+                </div>
+
+                <div class="metric">
+                    <div class="number">6+</div>
+                    <span>Performance Metrics</span>
+                </div>
+            </div>
+        </section>
+
+
+        <h2 class="section-title">🧩 Simulation Modules</h2>
+
+        <section class="modules">
+
+            <div class="card">
+                <div class="icon">⚙️</div>
+
+                <h3>Pipeline Analysis</h3>
+
+                <p>
+                    Analyse a 5-stage instruction pipeline including structural,
+                    data and control hazards, forwarding, stalls and branch prediction.
+                </p>
+
+                <a href="/pipeline" class="btn">Open Simulator →</a>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">💾</div>
+
+                <h3>Cache & Memory</h3>
+
+                <p>
+                    Simulate L1, L2 and L3 cache behaviour and compare direct,
+                    associative and set-associative mapping techniques.
+                </p>
+
+                <a href="/cache" class="btn">Open Simulator →</a>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">🧠</div>
+
+                <h3>Virtual Memory & TLB</h3>
+
+                <p>
+                    Perform paging and address translation while analysing TLB
+                    hits, TLB misses, page faults and effective access time.
+                </p>
+
+                <a href="/virtual-memory" class="btn">Open Simulator →</a>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">🔄</div>
+
+                <h3>I/O & DMA</h3>
+
+                <p>
+                    Compare programmed I/O, interrupt-driven I/O and DMA.
+                    Simulate large data transfers and calculate I/O performance.
+                </p>
+
+                <a href="/io-dma" class="btn">Open Simulator →</a>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">🚌</div>
+
+                <h3>Bus Analysis</h3>
+
+                <p>
+                    Analyse bus bandwidth, arbitration, transfer latency and
+                    communication between CPU, memory and peripherals.
+                </p>
+
+                <a href="/bus" class="btn">Open Simulator →</a>
+            </div>
+
+
+            <div class="card">
+                <div class="icon">📊</div>
+
+                <h3>Performance Evaluation</h3>
+
+                <p>
+                    Compare existing and optimized architectures using execution
+                    time, CPI, speedup, cache performance, throughput and CPU utilization.
+                </p>
+
+                <a href="/performance" class="btn">View Results →</a>
+            </div>
+
+        </section>
+
+
+        <h2 class="section-title">🏗️ Integrated High-Performance Architecture</h2>
+
+        <section class="architecture">
+
+            <p style="color:#94a3b8; line-height:1.6;">
+                The complete system connects the processor pipeline, memory
+                hierarchy, virtual memory subsystem and I/O system through
+                the system bus.
+            </p>
+
+            <div class="flow">
+
+                <div class="box">🖥️<br>CPU</div>
+
+                <div class="arrow">→</div>
+
+                <div class="box">⚙️<br>Pipeline</div>
+
+                <div class="arrow">→</div>
+
+                <div class="box">💾<br>L1/L2/L3</div>
+
+                <div class="arrow">→</div>
+
+                <div class="box">🧠<br>Main Memory</div>
+
+                <div class="arrow">→</div>
+
+                <div class="box">📄<br>Virtual Memory</div>
+
+                <div class="arrow">→</div>
+
+                <div class="box">🚌<br>System Bus</div>
+
+                <div class="arrow">→</div>
+
+                <div class="box">🔄<br>DMA / I/O</div>
+
+                <div class="arrow">→</div>
+
+                <div class="box">💿<br>Peripherals</div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        CSA12 Computer Architecture • High-Performance Architecture Simulator
+    </footer>
+
+</body>
+</html>
